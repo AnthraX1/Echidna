@@ -17,7 +17,7 @@ There are multiple ways to get the results down below 2000 and make this tool mo
 There's no multithreading support in order to avoid the secondary rate limiter (IP and Repo based).  
 If you need multithreading then your query is wrong!  
 
-Getting throttled? Hint: find more Github Tokens with -q 'ghp_' -p '[A-Za-z0-9]{36,}'  ( **͡° ͜ʖ ͡°**)  
+Getting throttled? Hint: find more Github Tokens with -q 'ghp_ -extension:html -extension:md -extension:txt' -p '[A-Za-z0-9]{36,}'  ( **͡° ͜ʖ ͡°**)  
 
 
 ## Usage  
