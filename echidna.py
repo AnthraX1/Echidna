@@ -263,7 +263,7 @@ def start_search():
 if __name__ == "__main__":
     helper_text = """
 Echidna is a highly effective Github API scraper. 
-It can utilize multiple GitHub tokens in round-robin to reduce get caught by the rate limiter.
+It utilizes multiple GitHub tokens in round-robin to avoid getting caught by the rate limiter.
 Echidna automatically pauses and resumes the job when all tokens are throttled. It also bypasses
 GitHub API query results limit (1000 items) by using date sorted query and starts from the end
 once first 1000 results are returned. Therefore the maximum number of obaintable results is 2000.
