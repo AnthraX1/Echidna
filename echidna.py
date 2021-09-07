@@ -247,16 +247,15 @@ def start_search():
             continue
         results = match_code_block(code, args.pattern)
         if results:
-            if not args.matched_only:
-                stderr_print("Code block found in: {}".format(item["html_url"]), "blue")
-                stderr_print("Matches: {}".format(results["exact_match"]), "blue")
-                stderr_print("Matched block: {}".format(results["code_block"]), "blue")
+            stderr_print("Code block found in: {}".format(item["html_url"]), "blue")
+            stderr_print("Matches: {}".format(results["exact_match"]), "blue")
+            stderr_print("Matched block: {}".format(results["code_block"]), "blue")
             item.update(results)
             if args.json:
                 print(json.dumps(item))
             if args.output_file:
                 f.write(json.dumps(item) + "\n")
-        else:
+        elif not args.matched_only:
             stderr_print("No match from: {}".format(item["html_url"]), "yellow")
             pass
 
