@@ -136,7 +136,7 @@ def search_api(qstr, page):
         elif r.status_code == 422 and FLIP_SEARCH_DIRECTION:
             return None
         elif r.status_code == 403 and "limit" in r.text:
-            throttled_tokens[token] = int(time.timestamp())
+            throttled_tokens[token] = int(time.time())
             del active_tokens[token]
             stderr_print("Error: Token throttled: {}".format(token), "red")
             continue
@@ -211,10 +211,10 @@ def get_code_file(url):
         if r.status_code == 403 and "limit" in resp["message"]:
             stderr_print("Hit rate limiter... Using token: {} ".format(token), "red")
             if token:
-                throttled_tokens[token] = int(time.timestamp())
+                throttled_tokens[token] = int(time.time())
                 del active_tokens[token]
             else:
-                throttled_tokens["no_token"] = int(time.timestamp())
+                throttled_tokens["no_token"] = int(time.time())
             continue
     raw_file_url = resp["download_url"]
     try:
@@ -333,7 +333,6 @@ Getting throttled? Hint: find more Github Tokens with -q 'ghp_' -p '[A-Za-z0-9]{
         FLIP_SEARCH_DIRECTION = True
         stderr_print("Reversing search order, starting from the end...")
     check_gh_token_list()
-    requests_per_minute = (len(tokens_list) * 30) - 1
     th = Thread(target=check_throttled_tokens)
     th.daemon = True
     th.start()
