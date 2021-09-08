@@ -86,12 +86,12 @@ def check_limiter(token):
     resp = r.json()
     if resp["rate"]["remaining"] > 0:
         try:
-            del throttled_tokens["token"]
+            del throttled_tokens[token]
         except Exception as e:
             stderr_print("Failed to throttle token: {}".format(e), "red")
             pass
         active_tokens.append(token)
-        stderr_print("Token {} is no longger throttled.", "green")
+        stderr_print("Token {} is no longer throttled".format(token), "green")
     return
 
 
@@ -137,7 +137,7 @@ def search_api(qstr, page):
             return None
         elif r.status_code == 403 and "limit" in r.text:
             throttled_tokens[token] = int(time.time())
-            del active_tokens[token]
+            active_tokens.remove(token)
             stderr_print("Error: Token throttled: {}".format(token), "red")
             continue
         else:
@@ -155,6 +155,8 @@ def api_code_search(qstr, start_page=1):
         confirm = input("Over 100 results, continue? [Y/N]")
         if confirm.lower() != "y":
             exit("Exiting...")
+    if start_page > pages:
+        stderr_print("start_page greater than total pages. Exit...", "red")
     while start_page <= pages:
         stderr_print("Current page: {}".format(start_page), "cyan")
         for item in resp["items"]:
@@ -212,7 +214,7 @@ def get_code_file(url):
             stderr_print("Hit rate limiter... Using token: {} ".format(token), "red")
             if token:
                 throttled_tokens[token] = int(time.time())
-                del active_tokens[token]
+                active_tokens.remove(token)
             else:
                 throttled_tokens["no_token"] = int(time.time())
             continue
